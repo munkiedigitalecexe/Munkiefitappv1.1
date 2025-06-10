@@ -1,0 +1,1061 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munkie Fitness</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c1729, #1a2a6c, #2c3e50);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            position: relative;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4ecdc4, #1a936f);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+            object-fit: contain;
+        }
+
+        .date-time {
+            text-align: right;
+        }
+
+        .location {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 5px;
+            color: #4ecdc4;
+        }
+
+        .date {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 5px;
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .month {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ff6b6b;
+            text-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+            position: relative;
+        }
+
+        .month::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #4ecdc4, transparent);
+            border-radius: 3px;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            gap: 5px;
+        }
+
+        .weekdays span {
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .weekdays span.active {
+            background: linear-gradient(to bottom, #ff6b6b, #ff8e8e);
+            color: #0f1b33;
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(78, 205, 196, 0.5), transparent);
+            margin: 25px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #4ecdc4;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            right: 20%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #ff6b6b;
+        }
+
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 20%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #ff6b6b;
+        }
+
+        .exercises-list {
+            list-style-type: none;
+            margin-bottom: 30px;
+        }
+
+        .exercises-list li {
+            padding: 15px 20px;
+            margin: 12px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .exercises-list li.active {
+            background: rgba(78, 205, 196, 0.2);
+            transform: translateX(8px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .exercises-list li.completed {
+            background: rgba(78, 205, 196, 0.1);
+            opacity: 0.7;
+        }
+
+        .exercises-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(to bottom, #ff6b6b, #ff8e8e);
+            border-radius: 5px 0 0 5px;
+        }
+
+        .exercise-icon {
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+            color: #ff6b6b;
+            font-size: 1.2rem;
+        }
+
+        .motivational-bar {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 142, 142, 0.8));
+            padding: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .motivational-text {
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .quote {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #0f1b33;
+            padding: 15px;
+            font-style: italic;
+            line-height: 1.5;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        .quote.active {
+            opacity: 1;
+        }
+
+        .quote-icon {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.2;
+            color: #0f1b33;
+        }
+
+        .quote-left {
+            top: 10px;
+            left: 15px;
+        }
+
+        .quote-right {
+            bottom: 10px;
+            right: 15px;
+        }
+
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 350px;
+            font-size: 0.9rem;
+            color: #4ecdc4;
+        }
+
+        .progress-bar {
+            width: 100%;
+            max-width: 350px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #4ecdc4, #1a936f);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent);
+            animation: shine 2s infinite;
+        }
+
+        .action-button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            color: #0f1b33;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 7px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        .action-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .action-button:active {
+            transform: translateY(-2px);
+        }
+
+        .action-button::after {
+            content: "";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .workout-screen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 20, 40, 0.95);
+            border-radius: 25px;
+            z-index: 100;
+            padding: 25px;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .timer-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .timer-display {
+            font-size: 6rem;
+            font-weight: bold;
+            background: linear-gradient(to bottom, #ff6b6b, #ff8e8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+            margin: 20px 0;
+        }
+
+        .current-exercise {
+            font-size: 1.8rem;
+            text-align: center;
+            margin: 20px 0;
+            color: #4ecdc4;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            min-height: 80px;
+        }
+
+        .exercise-instruction {
+            font-size: 1.4rem;
+            text-align: center;
+            margin: 20px 0;
+            color: #ff8e8e;
+            min-height: 60px;
+        }
+
+        .workout-progress {
+            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .workout-progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4ecdc4, #1a936f);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .workout-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .control-button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pause-button {
+            background: linear-gradient(to right, #4ecdc4, #1a936f);
+            color: #0f1b33;
+        }
+
+        .skip-button {
+            background: linear-gradient(to right, #ffa62b, #ff6b6b);
+            color: #0f1b33;
+        }
+
+        .cancel-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+        }
+
+        .watermark {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            color: #4ecdc4;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+                border-radius: 20px;
+            }
+
+            .logo-container {
+                width: 50px;
+                height: 50px;
+            }
+
+            .logo {
+                width: 35px;
+                height: 35px;
+            }
+
+            .date {
+                font-size: 1.2rem;
+            }
+
+            .month {
+                font-size: 1.7rem;
+            }
+
+            .weekdays {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .quote {
+                font-size: 1.1rem;
+            }
+
+            .action-button {
+                padding: 16px;
+                font-size: 1.2rem;
+            }
+
+            .timer-display {
+                font-size: 4.5rem;
+            }
+
+            .current-exercise {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-header">
+            <div class="logo-container">
+                <!-- Logo PNG reemplazando al SVG -->
+                <a href="https://imgbb.com/"><img src="https://i.ibb.co/zT70cB2L/logo1-4.png" alt="logo1-4" border="0"></a>
+            </div>
+            <div class="date-time">
+                <div class="location">
+                    <i class="fas fa-location-dot"></i> Quito
+                </div>
+                <div class="date" id="currentDateTime">Dom 8 jun. 17:45pm</div>
+            </div>
+        </div>
+
+        <div class="month">Junio</div>
+
+        <div class="weekdays">
+            <span>L</span>
+            <span>M</span>
+            <span>M</span>
+            <span>J</span>
+            <span>V</span>
+            <span>S</span>
+            <span class="active">D</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 class="section-title">Munkie Fitness 🥵</h3>
+
+        <ul class="exercises-list" id="exercisesList">
+            <li>
+                <div class="exercise-icon"><i class="fas fa-running"></i></div>
+                <div>Burpees</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-mountain"></i></div>
+                <div>Escaladores</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-shoe-prints"></i></div>
+                <div>Saltos con rodillas al pecho</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-dumbbell"></i></div>
+                <div>Sentadillas con salto</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-hands"></i></div>
+                <div>Flexiones explosivas</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-arrows-alt-v"></i></div>
+                <div>Plancha con toque de hombro</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-redo"></i></div>
+                <div>Saltos laterales</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-sync-alt"></i></div>
+                <div>Bicicleta abdominal</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-arrows-alt-h"></i></div>
+                <div>Plancha lateral con rotación</div>
+            </li>
+            <li>
+                <div class="exercise-icon"><i class="fas fa-undo"></i></div>
+                <div>Sprints en el lugar</div>
+            </li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <div class="motivational-bar">
+            <i class="fas fa-quote-left quote-icon quote-left"></i>
+            <div class="motivational-text">
+                <p class="quote active">¡Tu cuerpo es tu gimnasio, haz que cada repetición cuente!</p>
+                <p class="quote">La fuerza no viene de lo que puedes hacer, sino de superar lo que creías imposible.</p>
+                <p class="quote">Cada dominada, cada flexión, te acerca a la mejor versión de ti.</p>
+                <p class="quote">No necesitas pesas para construir tu grandeza, solo constancia y corazón.</p>
+                <p class="quote">En la calistenia, el único límite es el que te pones tú mismo.</p>
+                <p class="quote">¡Siente el poder de mover tu cuerpo y conquista tus metas!</p>
+                <p class="quote">El dolor que sientes hoy es la fuerza que sentirás mañana.</p>
+                <p class="quote">Cada gota de sudor es una inversión en tu mejor yo.</p>
+            </div>
+            <i class="fas fa-quote-right quote-icon quote-right"></i>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Progreso de hoy</span>
+                <span id="progressPercentage">0% completado</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+        </div>
+
+        <button class="action-button" id="startButton">Comenzar Entrenamiento</button>
+
+        <div class="watermark">Munkie Fitness</div>
+
+        <!-- Pantalla de entrenamiento -->
+        <div class="workout-screen" id="workoutScreen">
+            <div>
+                <div class="app-header">
+                    <div class="logo-container">
+                        <!-- Logo PNG en la pantalla de entrenamiento también -->
+                        <a href="https://imgbb.com/"><img src="https://i.ibb.co/zT70cB2L/logo1-4.png" alt="logo1-4" border="0"></a>
+                    </div>
+                    <div class="date-time">
+                        <div class="location">
+                            <i class="fas fa-location-dot"></i> Quito
+                        </div>
+                    </div>
+                </div>
+
+                <div class="current-exercise" id="currentExercise">Preparándose para comenzar</div>
+
+                <div class="timer-container">
+                    <div class="timer-display" id="timer">00:30</div>
+                    <div class="exercise-instruction" id="exerciseInstruction">¡Preparado para el primer ejercicio!</div>
+                    <div id="nextExerciseInfo" style="font-size: 1.2rem; color: #4ecdc4; margin-top: 10px; min-height: 30px;"></div>
+                </div>
+
+                <div class="workout-progress">
+                    <div class="workout-progress-bar" id="workoutProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="workout-controls">
+                <button class="control-button pause-button" id="pauseButton">
+                    <i class="fas fa-pause"></i> Pausa
+                </button>
+                <button class="control-button skip-button" id="skipButton">
+                    <i class="fas fa-forward"></i> Saltar
+                </button>
+                <button class="control-button cancel-button" id="cancelButton">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de la rutina
+        const workoutRoutine = [
+            { name: "Burpees", duration: 45 },
+            { name: "Escaladores", duration: 40 },
+            { name: "Saltos con rodillas al pecho", duration: 30 },
+            { name: "Sentadillas con salto", duration: 35 },
+            { name: "Flexiones explosivas", duration: 30 },
+            { name: "Plancha con toque de hombro", duration: 40 },
+            { name: "Saltos laterales", duration: 35 },
+            { name: "Bicicleta abdominal", duration: 40 },
+            { name: "Plancha lateral con rotación", duration: 30 },
+            { name: "Sprints en el lugar", duration: 45 }
+        ];
+
+        // Variables de estado
+        let currentExerciseIndex = 0;
+        let timer;
+        let secondsRemaining;
+        let isPaused = false;
+        let isRestPeriod = false;
+        let workoutInProgress = false;
+        const restDuration = 15; // Descanso entre ejercicios
+        let workoutProgress = 0; // Progreso global de 0 a 100
+
+        // Elementos DOM
+        const startButton = document.getElementById('startButton');
+        const workoutScreen = document.getElementById('workoutScreen');
+        const timerDisplay = document.getElementById('timer');
+        const currentExercise = document.getElementById('currentExercise');
+        const exerciseInstruction = document.getElementById('exerciseInstruction');
+        const nextExerciseInfo = document.getElementById('nextExerciseInfo');
+        const workoutProgressBar = document.getElementById('workoutProgressBar');
+        const pauseButton = document.getElementById('pauseButton');
+        const skipButton = document.getElementById('skipButton');
+        const cancelButton = document.getElementById('cancelButton');
+        const exercisesList = document.getElementById('exercisesList');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercentage = document.getElementById('progressPercentage');
+
+        // Variables para el sistema de frases
+        let quoteInterval;
+        let currentQuoteIndex = 0;
+        const quotes = document.querySelectorAll('.quote');
+
+        // Actualizar fecha y hora en tiempo real con huso horario de Quito (UTC-5)
+        function updateDateTime() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const quitoTime = new Date(utc - (5 * 3600000)); // UTC-5 para Quito
+
+            const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+            const dayName = days[quitoTime.getDay()];
+            const day = quitoTime.getDate();
+            const month = months[quitoTime.getMonth()];
+            const hours = quitoTime.getHours();
+            const minutes = quitoTime.getMinutes();
+            const ampm = hours >= 12 ? 'pm' : 'am';
+            const formattedHours = hours % 12 || 12;
+
+            const dateTimeString = `${dayName} ${day} ${month}. ${formattedHours}:${minutes < 10 ? '0' : ''}${minutes}${ampm}`;
+            document.getElementById('currentDateTime').textContent = dateTimeString;
+        }
+
+        // Resaltar el día actual en el calendario
+        function highlightCurrentDay() {
+            const today = new Date().getDay();
+            const weekdays = document.querySelectorAll('.weekdays span');
+            const dayIndex = today === 0 ? 6 : today - 1;
+
+            weekdays.forEach((span, index) => {
+                span.classList.toggle('active', index === dayIndex);
+            });
+        }
+
+        // Sistema para rotar frases infinitamente con intervalo de 10 segundos
+        function startQuoteRotation() {
+            quotes[currentQuoteIndex].classList.add('active');
+
+            quoteInterval = setInterval(() => {
+                quotes[currentQuoteIndex].classList.remove('active');
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+                quotes[currentQuoteIndex].classList.add('active');
+            }, 10000); // 10 segundos
+        }
+
+        // Actualizar la barra de progreso principal
+        function updateMainProgressBar() {
+            progressBar.style.width = `${workoutProgress}%`;
+            progressPercentage.textContent = `${Math.round(workoutProgress)}% completado`;
+        }
+
+        // Hablar con la síntesis de voz
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.2;
+                utterance.volume = 1;
+
+                const voices = speechSynthesis.getVoices();
+                let femaleVoice = voices.find(voice =>
+                    voice.lang.includes('es') &&
+                    (voice.name.toLowerCase().includes('female') ||
+                     voice.name.includes('Mónica') ||
+                     voice.name.includes('Paulina') ||
+                     voice.name.includes('Sofía') ||
+                     voice.name.includes('Google español'))
+                ) || voices.find(voice => voice.lang.includes('es'));
+
+                if (femaleVoice) utterance.voice = femaleVoice;
+
+                setTimeout(() => speechSynthesis.speak(utterance), 100);
+            }
+        }
+
+        // Cargar voces
+        function loadVoices() {
+            return new Promise(resolve => {
+                if (speechSynthesis.getVoices().length > 0) {
+                    resolve();
+                } else {
+                    speechSynthesis.onvoiceschanged = resolve;
+                }
+            });
+        }
+
+        // Formatear tiempo
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Actualizar barra de progreso del entrenamiento
+        function updateWorkoutProgress() {
+            const progress = (currentExerciseIndex / workoutRoutine.length) * 100;
+            workoutProgressBar.style.width = `${progress}%`;
+        }
+
+        // Iniciar ejercicio
+        function startExercise(index) {
+            if (index >= workoutRoutine.length) {
+                endWorkout();
+                return;
+            }
+
+            currentExerciseIndex = index;
+            secondsRemaining = workoutRoutine[index].duration;
+            isRestPeriod = false;
+
+            currentExercise.textContent = workoutRoutine[index].name;
+            exerciseInstruction.textContent = "¡Ejecuta el ejercicio con buena forma!";
+            timerDisplay.textContent = formatTime(secondsRemaining);
+
+            // Anunciar el próximo ejercicio
+            let nextInfo = "";
+            if (index < workoutRoutine.length - 1) {
+                nextInfo = `Próximo: ${workoutRoutine[index + 1].name} (${workoutRoutine[index + 1].duration}s)`;
+                nextExerciseInfo.textContent = nextInfo;
+            } else {
+                nextExerciseInfo.textContent = "¡Último ejercicio! ¡Tú puedes!";
+            }
+
+            const exerciseItems = exercisesList.querySelectorAll('li');
+            exerciseItems.forEach((item, i) => {
+                item.classList.remove('active', 'completed');
+                if (i === index) item.classList.add('active');
+                else if (i < index) item.classList.add('completed');
+            });
+
+            // Actualizar progreso global
+            workoutProgress = (index / workoutRoutine.length) * 100;
+            updateMainProgressBar();
+
+            // Anuncio mejorado: mencionar el próximo ejercicio al comenzar
+            let announcement = `Preparate para: ${workoutRoutine[index].name}.`;
+            if (index < workoutRoutine.length - 1) {
+                announcement += ` Después tendrás ${workoutRoutine[index + 1].name}.`;
+            } else {
+                announcement += " ¡Este es el último ejercicio!";
+            }
+            announcement += " Comenzando en 3... 2... 1... ¡Ahora!";
+
+            speak(announcement);
+            startTimer();
+            updateWorkoutProgress();
+        }
+
+        // Iniciar descanso
+        function startRest() {
+            isRestPeriod = true;
+            secondsRemaining = restDuration;
+
+            currentExercise.textContent = "Tiempo de descanso";
+            exerciseInstruction.textContent = `Prepárate para: ${workoutRoutine[currentExerciseIndex + 1]?.name || 'fin de la rutina'}`;
+            timerDisplay.textContent = formatTime(secondsRemaining);
+
+            // Anunciar el próximo ejercicio durante el descanso
+            let nextExercise = workoutRoutine[currentExerciseIndex + 1]?.name || 'fin de la rutina';
+            let nextDuration = workoutRoutine[currentExerciseIndex + 1]?.duration || 0;
+
+            if (nextExercise !== 'fin de la rutina') {
+                nextExerciseInfo.textContent = `Próximo: ${nextExercise} (${nextDuration}s)`;
+            } else {
+                nextExerciseInfo.textContent = "¡Último ejercicio después del descanso!";
+            }
+
+            // Actualizar progreso global
+            workoutProgress = ((currentExerciseIndex + 1) / workoutRoutine.length) * 100;
+            updateMainProgressBar();
+
+            // Anuncio específico durante el descanso
+            let restMessage = `Buen trabajo! Descansa ${restDuration} segundos.`;
+            if (currentExerciseIndex < workoutRoutine.length - 1) {
+                restMessage += ` El próximo ejercicio será: ${nextExercise}.`;
+            } else {
+                restMessage += " Después de este descanso, solo queda un ejercicio más.";
+            }
+
+            speak(restMessage);
+            startTimer();
+        }
+
+        // Iniciar temporizador
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(() => {
+                if (!isPaused) {
+                    secondsRemaining--;
+                    timerDisplay.textContent = formatTime(secondsRemaining);
+
+                    // Anuncios mejorados en los últimos 3 segundos
+                    if (secondsRemaining === 3) {
+                        if (!isRestPeriod) {
+                            // Durante ejercicio
+                            if (currentExerciseIndex < workoutRoutine.length - 1) {
+                                speak("¡Últimos 3 segundos! Después de este ejercicio, descanso y luego " +
+                                      workoutRoutine[currentExerciseIndex+1].name);
+                            } else {
+                                speak("¡Últimos 3 segundos! ¡Último ejercicio! Después de esto, habrás terminado.");
+                            }
+                        } else {
+                            // Durante descanso
+                            const nextExercise = workoutRoutine[currentExerciseIndex + 1]?.name || 'fin de la rutina';
+                            if (nextExercise !== 'fin de la rutina') {
+                                speak(`El descanso está por terminar. Prepárate para ${nextExercise} en 3... 2... 1...`);
+                            } else {
+                                speak("El descanso está por terminar. ¡Prepárate para el último ejercicio! en 3... 2... 1...");
+                            }
+                        }
+                    }
+
+                    if (secondsRemaining <= 0) {
+                        clearInterval(timer);
+                        if (isRestPeriod) {
+                            startExercise(currentExerciseIndex + 1);
+                        } else {
+                            if (currentExerciseIndex < workoutRoutine.length - 1) {
+                                startRest();
+                            } else {
+                                endWorkout();
+                            }
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        // Iniciar entrenamiento
+        function startWorkout() {
+            workoutScreen.style.display = "flex";
+            workoutInProgress = true;
+            currentExerciseIndex = 0;
+            isPaused = false;
+
+            // Reiniciar progreso
+            workoutProgress = 0;
+            updateMainProgressBar();
+
+            // Mensaje introductorio con información del entrenamiento
+            const totalExercises = workoutRoutine.length;
+            const totalDuration = workoutRoutine.reduce((acc, curr) => acc + curr.duration, 0) +
+                                  (totalExercises - 1) * restDuration;
+            const minutes = Math.floor(totalDuration / 60);
+
+            speak(`¡Preparada para comenzar! La rutina de hoy tiene ${totalExercises} ejercicios con una duración total de aproximadamente ${minutes} minutos. ¡Vamos a por ello!`);
+            setTimeout(() => startExercise(0), 3000);
+        }
+
+        // Finalizar entrenamiento
+        function endWorkout() {
+            clearInterval(timer);
+            currentExercise.textContent = "¡Entrenamiento completado!";
+            exerciseInstruction.textContent = "Excelente trabajo hoy";
+            nextExerciseInfo.textContent = "¡Has completado todos los ejercicios!";
+            timerDisplay.textContent = "00:00";
+
+            // Actualizar progreso a 100%
+            workoutProgress = 100;
+            updateMainProgressBar();
+
+            speak("¡Entrenamiento completado! Excelente trabajo. Has terminado tu rutina de hoy.");
+
+            setTimeout(() => {
+                workoutScreen.style.display = "none";
+                workoutInProgress = false;
+                startButton.textContent = "Comenzar Entrenamiento";
+                startButton.disabled = false;
+
+                const exerciseItems = exercisesList.querySelectorAll('li');
+                exerciseItems.forEach(item => item.classList.remove('active', 'completed'));
+            }, 5000);
+        }
+
+        // Pausar/reanudar entrenamiento
+        function togglePause() {
+            isPaused = !isPaused;
+            pauseButton.innerHTML = isPaused
+                ? '<i class="fas fa-play"></i> Reanudar'
+                : '<i class="fas fa-pause"></i> Pausa';
+            speak(isPaused ? "Entrenamiento en pausa" : "Reanudando entrenamiento");
+        }
+
+        // Saltar ejercicio
+        function skipExercise() {
+            clearInterval(timer);
+            if (isRestPeriod) {
+                startExercise(currentExerciseIndex + 1);
+            } else {
+                if (currentExerciseIndex < workoutRoutine.length - 1) {
+                    speak("Saltando ejercicio... Preparando descanso");
+                    startRest();
+                } else {
+                    endWorkout();
+                }
+            }
+        }
+
+        // Cancelar entrenamiento
+        function cancelWorkout() {
+            clearInterval(timer);
+            workoutScreen.style.display = "none";
+            workoutInProgress = false;
+
+            // Reiniciar progreso
+            workoutProgress = 0;
+            updateMainProgressBar();
+
+            const exerciseItems = exercisesList.querySelectorAll('li');
+            exerciseItems.forEach(item => item.classList.remove('active', 'completed'));
+
+            startButton.textContent = "Comenzar Entrenamiento";
+            startButton.disabled = false;
+            speak("Entrenamiento cancelado");
+        }
+
+        // Event Listeners
+        startButton.addEventListener('click', startWorkout);
+        pauseButton.addEventListener('click', togglePause);
+        skipButton.addEventListener('click', skipExercise);
+        cancelButton.addEventListener('click', cancelWorkout);
+
+        // Inicializar funciones
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+        highlightCurrentDay();
+        loadVoices().then(startQuoteRotation);
+    </script>
+</body>
+</html>
